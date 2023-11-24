@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+        
+        <ul class="restaurantinstance-card-container">
+          <% if (restaurantinstance_list.length > 0) { %>
+            <% restaurantinstance_list.forEach((restaurantinstance) => { %>
+              <a class="restaurantinstance-card" href="<%= restaurantinstance.url %>">
+                <li>
+                  <h3><%= restaurantinstance.restaurant.name %></h3>
+
+                  <% if (restaurantinstance.restaurant.cuisine.length > 1) { %>
+                    <p>Cuisines: 
+                      <% restaurantinstance.restaurant.cuisine.forEach((cuisine, index) => { %>
+                        <span><%= cuisine.name %></span>
+                        <!-- Add separation between multiple cuisines -->
+                        <% if (index < restaurantinstance.restaurant.cuisine.length - 1) { %>
+                          <span>, </span>
+                        <% } %>
+                      <% }); %>
+                    </p>
+                  <% } else if (restaurantinstance.restaurant.cuisine.length === 1) { %>
+                    <p>Cuisine: 
+                      <% restaurantinstance.restaurant.cuisine.forEach((cuisine) => { %>
+                        <span><%= cuisine.name %></span>
+                      <% }); %>
+                    </p>
+                  <% } else { %>
+                    <p>None</p>
+                  <% } %>
+
+                  <p>
+                    <% if (typeof restaurantinstance.location !== 'undefined') { %>
+                      <span><%= restaurantinstance.location.city %>,</span>
+                      <% if (restaurantinstance.location.state) { %> 
+                        <span><%= restaurantinstance.location.state%>,</span>
+                      <% } %>
+                      <span><%= restaurantinstance.location.country %></span>
+                    <% } %>
+                  </p>
+
+                  <% if (restaurantinstance.rating) { %>
+                    <p>Rating: <%= restaurantinstance.rating %></p>
+                  <% } %>
+
+                  <% if (restaurantinstance.price) { %>
+                    <p>Price: <%= restaurantinstance.price %></p>
+                  <% } %>
+          
+                  <p>Summary: <%= restaurantinstance.restaurant.summary %></p>  
+
+                  <p>Address: <%= restaurantinstance.address %></p>
+
+                </li>
+              </a>
+            <% }); %>
+          <% } else { %>
+            <li>There are no restaurants.</li>
+          <% } %>
+        </ul>   
+        
+      </div>
+    </div>
+  </div>
+
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function() {
+      const divElement = document.querySelector('.sk-ww-google-business-photo');
+      divElement.addEventListener('click', function(event) {
+        // Stop event propagation to prevent the click event on the div from reaching the parent 'a' tag.
+        event.preventDefault();
+      });
+    });  
+  </script>
+</body>
+</html>
+

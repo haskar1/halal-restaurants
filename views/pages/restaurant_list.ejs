@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+        
+        <ul class="restaurant-card-container">
+          <% if (restaurant_list.length > 0) { %>
+            <% restaurant_list.forEach((restaurant) => { %>
+              <a class="restaurant-card" href="<%= restaurant.url %>">
+                <li>
+                  <h3><%= restaurant.name %></h3>
+                  
+                  <% if (restaurant.cuisine.length > 1) { %>
+                    <p>Cuisines: 
+                      <% restaurant.cuisine.forEach((cuisine, index) => { %>
+                        <span><%= cuisine.name %></span>
+                        <!-- Add separation between multiple cuisines -->
+                        <% if (index < restaurant.cuisine.length - 1) { %>
+                          <span>, </span>
+                        <% } %>
+                      <% }); %>
+                    </p>
+                  <% } else if (restaurant.cuisine.length === 1) { %>
+                    <p>Cuisine: 
+                      <% restaurant.cuisine.forEach((cuisine) => { %>
+                        <span><%= cuisine.name %></span>
+                      <% }); %>
+                    </p>
+                  <% } else { %>
+                    <p>None</p>
+                  <% } %>
+
+                  <% if (restaurant.location.length > 1) { %>
+                    <p>Locations: 
+                      <% restaurant.location.forEach((location, index) => { %>
+                        <span><%= location.city %>,</span>
+                        <% if (location.state) { %> 
+                          <span><%= location.state%>,</span>
+                        <% } %>
+                        <span><%= location.country %></span>
+                        <!-- Add separation between multiple cities -->
+                        <% if (index < restaurant.location.length - 1) { %>
+                          <span>||</span>
+                        <% } %>
+                      <% }); %>
+                    </p>
+                  <% } else if (restaurant.location.length === 1) { %>
+                    <p>Location: 
+                      <% restaurant.location.forEach((location) => { %>
+                        <span><%= location.city %>,</span>
+                        <% if (location.state) { %> 
+                          <span><%= location.state%>,</span>
+                        <% } %>
+                        <span><%= location.country %></span>
+                      <% }); %>
+                    </p>
+                  <% } else { %>
+                    <p>None</p>
+                  <% } %>
+                    
+                  <p>Summary: <%= restaurant.summary %></p>  
+                </li>
+              </a>
+            <% }); %>
+          <% } else { %>
+            <li>There are no restaurants.</li>
+          <% } %>
+        </ul>        
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

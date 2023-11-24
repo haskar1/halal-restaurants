@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+        
+        <ul class="restaurantinstance-card-container">
+          <% if (location_restaurantinstances.length > 0) { %>
+            <% location_restaurantinstances.forEach((restaurantinstance) => { %>
+              <a class="restaurantinstance-card" href="<%= restaurantinstance.url %>">
+                <li>
+                  <h3><%= restaurantinstance.restaurant.name %></h3>
+
+                  <% if (restaurantinstance.restaurant.cuisine.length > 1) { %>
+                    <p>Cuisines: 
+                      <% restaurantinstance.restaurant.cuisine.forEach((cuisine, index) => { %>
+                        <span><%= cuisine.name %></span>
+                        <!-- Add separation between multiple cuisines -->
+                        <% if (index < restaurantinstance.restaurant.cuisine.length - 1) { %>
+                          <span>, </span>
+                        <% } %>
+                      <% }); %>
+                    </p>
+                  <% } else if (restaurantinstance.restaurant.cuisine.length === 1) { %>
+                    <p>Cuisine: 
+                      <% restaurantinstance.restaurant.cuisine.forEach((cuisine) => { %>
+                        <span><%= cuisine.name %></span>
+                      <% }); %>
+                    </p>
+                  <% } else { %>
+                    <p>None</p>
+                  <% } %>
+
+                  
+                  <% if (restaurantinstance.rating) { %>
+                    <p>Rating: <%= restaurantinstance.rating %></p>
+                  <% } %>
+
+                  <% if (restaurantinstance.price) { %>
+                    <p>Price: <%= restaurantinstance.price %></p>
+                  <% } %>
+          
+                  <p>Summary: <%= restaurantinstance.restaurant.summary %></p>  
+
+                  <p>Address: <%= restaurantinstance.address %></p>
+
+                </li>
+              </a>
+            <% }); %>
+          <% } else { %>
+            <li>There are no restaurants.</li>
+          <% } %>
+        </ul>   
+
+        <hr>
+        <p>
+          <a href="<%= location.url %>/update">Update location</a>
+        </p>
+        <p>
+          <a href="<%= location.url %>/delete">Delete location</a>
+        </p>
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

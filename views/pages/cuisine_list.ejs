@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+        
+        <ul class="cuisines-container">
+          <% if (cuisine_list.length > 0) { %>
+            <% cuisine_list.forEach((cuisine) => { %>
+              <li>
+                <a class="cuisine-item" href="<%= cuisine.url %>">
+                  <%= cuisine.name %>
+                </a>
+              </li>
+            <% }); %>
+          <% } else { %>
+            <p>No cuisines yet</p>
+          <% } %>
+        </ul> 
+                      
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

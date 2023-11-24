@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+        
+        <ul class="locations-container">
+          <% if (location_list.length > 0) { %>
+            <% location_list.forEach((location) => { %>
+              <li>
+                <a class="location-item" href="<%= location.url %>">
+                    <span><%= location.city %>,</span>
+                    <% if (location.state) { %> 
+                      <span><%= location.state%>,</span>
+                    <% } %>
+                    <span><%= location.country %></span>
+                </a>
+              </li>
+            <% }); %>
+          <% } else { %>
+            <p>No locations yet</p>
+          <% } %>
+        </ul> 
+                      
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

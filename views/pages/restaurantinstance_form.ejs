@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+
+        <form method="POST" action="">
+          <div class="form-group">
+            <label for="restaurant">Restaurant:</label>
+            <select id="restaurant" class="form-control" type="select" placeholder="Select restaurant" name="restaurant" required="true">
+              <% restaurant_list.sort(function(a, b) {
+                var textA = a.name.toUpperCase();
+                var textB = b.name.toUpperCase();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+              }); %>
+              <% restaurant_list.forEach(function(restaurant) { %>
+                <option value="<%= restaurant._id %>" <%= (typeof selected_restaurant !== 'undefined' && selected_restaurant === restaurant._id.toString() ? 'selected' : '') %>><%= restaurant.name %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="location">Location:</label>
+            <select id="location" class="form-control" name="location" required="true">
+              <% locations.sort(function(a, b) { %>
+                <% let textA = a.city.toUpperCase(); %>
+                <% let textB = b.city.toUpperCase(); %>
+                <% return (textA < textB) ? -1 : (textA > textB) ? 1 : 0; %>
+              <% }); %>
+              <% locations.forEach(function(location) { %>
+                <% const state = (location.state ? location.state + ', ' : '') %>
+                <% if (typeof restaurant === 'undefined') { %>
+                  <option value="<%= location._id %>"> <%= `${location.city}, ${state}${location.country}` %> </option>
+                <% } else { %>
+                  <option value="<%= location._id %>" <%= (typeof restaurant !== 'undefined' && Array.isArray(restaurant.location) && restaurant.location.some(loc => loc._id.toString() === location._id.toString()) ? 'selected' : '') %>> <%= `${location.city}, ${state}${location.country}` %> </option>
+                <% } %>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" class="form-control" placeholder="Address" name="address" required="true" value="<%= (typeof restaurantinstance === 'undefined' ? '' : restaurantinstance.address) %>">
+          </div>
+          <div class="form-group">
+            <label for="rating">Rating:</label>
+            <input type="number" id="rating" class="form-control" placeholder="Rating" name="rating" min="1" max="5" step="0.1" value="<%= (typeof restaurantinstance === 'undefined' ? '' : restaurantinstance.rating) %>">
+          </div>
+          <div class="form-group">
+            <label for="price">Price:</label>
+            <select id="price" class="form-control" type="select" placeholder="Select price" name="price" required="true">
+              <option value="$" <%= (typeof restaurantinstance !== 'undefined' && restaurantinstance.price === '$' ? 'selected' : '') %>>$</option>
+              <option value="$$" <%= (typeof restaurantinstance !== 'undefined' && restaurantinstance.price === '$$' ? 'selected' : '') %>>$$</option>
+              <option value="$$$" <%= (typeof restaurantinstance !== 'undefined' && restaurantinstance.price === '$$$' ? 'selected' : '') %>>$$$</option>
+              <option value="$$$$" <%= (typeof restaurantinstance !== 'undefined' && restaurantinstance.price === '$$$$' ? 'selected' : '') %>>$$$$</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+      
+        <!-- Display errors after submission -->
+        <% if (typeof errors !== 'undefined') { %>
+          <ul>
+            <% errors.forEach(function(error) { %>
+              <li><%= error.msg %></li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= restaurant.name %></h1>
+
+        <% if (restaurant.cuisine.length > 1) { %>
+          <p>Cuisines: 
+            <% restaurant.cuisine.forEach((cuisine, index) => { %>
+              <span><%= cuisine.name %></span>
+              <!-- Add separation between multiple cuisines -->
+              <% if (index < restaurant.cuisine.length - 1) { %>
+                <span>, </span>
+              <% } %>
+            <% }); %>
+          </p>
+        <% } else if (restaurant.cuisine.length === 1) { %>
+          <p>Cuisine: 
+            <% restaurant.cuisine.forEach((cuisine) => { %>
+              <span><%= cuisine.name %></span>
+            <% }); %>
+          </p>
+        <% } else { %>
+          <p>None</p>
+        <% } %>
+
+        <p>Summary: <%= restaurant.summary %></p>  
+
+        <div style="margin-top: 20px;">
+          <h4>Locations</h4>
+          
+          <% if (restaurant_instances.length > 0) { %>
+            <p><strong>Delete the following restaurant instances before attempting to delete this restaurant:</strong></p>
+            <hr>
+            <ul class="restaurantinstance-card-container">
+              <% restaurant_instances.forEach((restaurantinstance) => { %>
+                <a class="restaurantinstance-card" href="<%= restaurantinstance.url %>">
+                  <li>                              
+                    <h3>
+                      <% if (typeof restaurantinstance.location !== 'undefined') { %>
+                        <span><%= restaurantinstance.location.city %>,</span>
+                        <% if (restaurantinstance.location.state) { %> 
+                          <span><%= restaurantinstance.location.state%>,</span>
+                        <% } %>
+                        <span><%= restaurantinstance.location.country %></span>
+                      <% } %>
+                    </h3>
+  
+                    <p>Address: <%= restaurantinstance.address %></p>
+
+                    <% if (restaurantinstance.rating) { %>
+                      <p>Rating: <%= restaurantinstance.rating %></p>
+                    <% } %>
+  
+                    <% if (restaurantinstance.price) { %>
+                      <p>Price: <%= restaurantinstance.price %></p>
+                    <% } %>
+  
+                  </li>
+                </a>
+              <% }); %>
+            </ul>   
+          <% } else { %>
+            <p>Do you really want to delete this Restaurant?</p>
+            <form method="POST" action="">
+              <div class="form-group">
+                <input id="restaurantid" class="form-control" type="hidden" name="restaurantid" required="true" value="<%= restaurant._id %>">
+              </div>
+              <button class="btn btn-primary" type="submit">Delete</button>
+            </form>
+          <% } %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

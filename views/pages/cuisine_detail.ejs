@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1>Cuisine: <%= cuisine.name %></h1>
+
+        <div style="margin-left: 20px; margin-top: 20px;">
+          <h4>Restaurants</h4>
+
+          <dl>
+            <% if (cuisine_restaurants.length > 0) { %>
+              <% cuisine_restaurants.forEach((restaurant) => { %>
+                <dt>
+                  <a href="<%= restaurant.url %>"><%= restaurant.name %></a>
+                </dt>
+                <dd><%= restaurant.summary %></dd>
+              <% }); %>
+            <% } else { %>
+              <p>This cuisine has no restaurants</p>
+            <% } %>
+          </dl>
+        </div>
+
+        <hr>
+        <p>
+          <a href="<%= cuisine.url %>/update">Update cuisine</a>
+        </p>
+        <p>
+          <a href="<%= cuisine.url %>/delete">Delete cuisine</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+

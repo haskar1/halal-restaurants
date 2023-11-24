@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+
+        <form method="POST" action="">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input id="name" class="form-control" type="text" placeholder="Name of restaurant" name="name" required="true" value="<%= (typeof restaurant === 'undefined' ? '' : restaurant.name) %>">
+          </div>
+          <div class="form-group">
+            <label for="location">Location:</label>
+            <select id="location" class="form-control" name="location" required="true">
+              <% locations.sort(function(a, b) { %>
+                <% let textA = a.city.toUpperCase(); %>
+                <% let textB = b.city.toUpperCase(); %>
+                <% return (textA < textB) ? -1 : (textA > textB) ? 1 : 0; %>
+              <% }); %>
+              <% locations.forEach(function(location) { %>
+                <% const state = (location.state ? location.state + ', ' : '') %>
+                <% if (typeof restaurant === 'undefined') { %>
+                  <option value="<%= location._id %>"> <%= `${location.city}, ${state}${location.country}` %> </option>
+                <% } else { %>
+                  <option value="<%= location._id %>" <%= (typeof restaurant !== 'undefined' && Array.isArray(restaurant.location) && restaurant.location.some(loc => loc._id.toString() === location._id.toString()) ? 'selected' : '') %>> <%= `${location.city}, ${state}${location.country}` %> </option>
+                <% } %>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="summary">Summary:</label>
+            <textarea id="summary" class="form-control" placeholder="Summary" name="summary" required="true"><%= (typeof restaurant === 'undefined' ? '' : restaurant.summary) %></textarea>
+          </div>
+          <div class="form-group">
+            <label>Cuisine:</label>
+            <div>
+              <% cuisines.sort(function(a, b) { %>
+                <% let textA = a.name.toUpperCase(); %>
+                <% let textB = b.name.toUpperCase(); %>
+                <% return (textA < textB) ? -1 : (textA > textB) ? 1 : 0; %>
+              <% }); %>
+              <% cuisines.forEach(function(cuisine) { %>
+                <div style="display: inline; padding-right: 10px;">
+                  <input class="checkbox-input" type="checkbox" name="cuisine" id="<%= cuisine._id %>" value="<%= cuisine._id %>" <%= cuisine.checked ? 'checked' : '' %> >
+                  <label for="<%= cuisine._id %>"> <%= cuisine.name %></label>
+                </div>
+              <% }); %>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+      
+        <!-- Display errors after submission -->
+        <% if (typeof errors !== 'undefined') { %>
+          <ul>
+            <% errors.forEach(function(error) { %>
+              <li><%= error.msg %></li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

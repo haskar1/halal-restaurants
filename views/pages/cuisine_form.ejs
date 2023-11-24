@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+
+        <form method="POST" action="">
+          <div class="form-group">
+            <label for="name">Cuisine:</label>
+            <input id="name" class="form-control" type="text" placeholder="Arab, Turkish, Pakistani, etc." name="name" value="<%= (typeof cuisine === 'undefined' ? '' : cuisine.name) %>" required>
+          </div>
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+
+        <% if (typeof errors !== 'undefined') { %>
+          <ul>
+            <% errors.forEach((error) => { %>
+              <li><%= error.msg %></li>
+            <% }); %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

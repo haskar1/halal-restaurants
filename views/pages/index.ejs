@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sidebar col-sm-2">
+        <%- include('../partials/sidebar'); %>
+      </div>
+
+      <div class="content col-sm-10">
+        <h1><%= title %></h1>
+        <p>Welcome to Halal Restaurants, a website that finds the best halal restaurants near you!</p>
+            
+        <p>Total number of halal restaurants listed so far:</p>
+      
+        <ul>
+          <li><strong>Restaurants:</strong> <%- restaurant_count %></li>
+          <li><strong>Cities:</strong> <%- location_count %></li>
+          <li><strong>Cuisines:</strong> <%- cuisine_count %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
